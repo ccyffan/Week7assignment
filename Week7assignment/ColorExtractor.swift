@@ -1,6 +1,8 @@
 import SwiftUI
 import UIKit
 
+//thanks to chatgpt
+
 class ColorExtractor {
     func extractColors(from image: UIImage, count: Int) -> [(color: Color, hex: String, rgb: String)] {
         guard let cgImage = image.cgImage else { return [] }
@@ -22,7 +24,7 @@ class ColorExtractor {
         guard let pixelData = context?.data else { return [] }
         let data = pixelData.bindMemory(to: UInt8.self, capacity: width * height * 4)
 
-        var colorCounts: [UIColor: Int] = [:]
+        var colorCounts: [UIColor: Int] = [:]//a dictionary to track
 
         for x in 0..<width {
             for y in 0..<height {
@@ -40,13 +42,14 @@ class ColorExtractor {
         }
 
         let sortedColors = colorCounts.sorted { $0.value > $1.value }.prefix(count)
-
-        return sortedColors.map { color, _ in
+//array map function
+//what is a tuple
+        return sortedColors.map { color, _ in //
             let hex = color.toHexString()
             let components = color.cgColor.components ?? [0, 0, 0]
             let rgb = "RGB: \(Int(components[0] * 255)), \(Int(components[1] * 255)), \(Int(components[2] * 255))"
-            return (Color(color), hex, rgb)
-        }
+            return (Color(color), hex, rgb) //tuple
+        }//create hex string using extension
     }
 }
 
